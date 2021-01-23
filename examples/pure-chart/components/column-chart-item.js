@@ -15,7 +15,6 @@ export default class ColumnChartItem extends Component {
 
   render() {
     let seriesCount = this.props.seriesArray.length
-
     return (
       <View>
         <View style={{ height: this.props.defaultHeight }}>
@@ -23,15 +22,18 @@ export default class ColumnChartItem extends Component {
             {/* {renders} */}
             {this.props.seriesArray.map((d, index) => {
               return (
-                <TouchableOpacity onPress={() => this.onPressItem(index)}>
-                  <View key={index} style={[styles.bar, {
-                    width: this.props.defaultWidth / seriesCount,
-                    height: this.props.seriesArray[index].data[this.props.dataIndex]['ratioY'],
-                    marginRight: 20,
-                    backgroundColor: this.props.seriesArray[index].seriesColor,
-                    borderColor: this.props.isSelected ? this.props.highlightColor : '#FFFFFF'
-                  }]} />
-                </TouchableOpacity>
+                <View>
+                  <Text style={{ textAlign: 'center', marginVertical: 5, fontSize: 10 }}>{this.props.seriesArray[index].data[this.props.dataIndex]['y']}</Text>
+                  <TouchableOpacity onPress={() => this.onPressItem(index)}>
+                    <View key={index} style={[styles.bar, {
+                      width: this.props.defaultWidth / seriesCount,
+                      height: this.props.seriesArray[index].data[this.props.dataIndex]['ratioY'],
+                      marginRight: 20,
+                      backgroundColor: this.props.seriesArray[index].seriesColor,
+                      borderColor: this.props.isSelected ? this.props.highlightColor : '#FFFFFF'
+                    }]} />
+                  </TouchableOpacity>
+                </View>
               )
             })}
           </View>
