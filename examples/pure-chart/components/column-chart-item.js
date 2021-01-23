@@ -1,34 +1,42 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { View, StyleSheet, TouchableWithoutFeedback } from 'react-native'
+import { View, StyleSheet, TouchableWithoutFeedback, Text } from 'react-native'
+import { TouchableOpacity } from 'react-native-gesture-handler'
 
 export default class ColumnChartItem extends Component {
-  render () {
-    let renders = []
+  constructor(props) {
+    super(props)
+    this.onPressItem = this.onPressItem.bind(this)
+  }
+
+  onPressItem(index) {
+    this.props.onPressColumn(index)
+  }
+
+  render() {
     let seriesCount = this.props.seriesArray.length
-    for (let seriesIndex = 0; seriesIndex < seriesCount; seriesIndex++) {
-      let lastElementMarginRight = 0
-      if (seriesIndex === (seriesCount - 1)) {
-        lastElementMarginRight = this.props.defaultMargin
-      }
-      renders.push(
-        <View key={seriesIndex} style={[styles.bar, {
-          width: this.props.defaultWidth / seriesCount,
-          height: this.props.seriesArray[seriesIndex].data[this.props.dataIndex]['ratioY'],
-          marginRight: lastElementMarginRight,
-          backgroundColor: this.props.seriesArray[seriesIndex].seriesColor,
-          borderColor: this.props.isSelected ? this.props.highlightColor : this.props.defaultBorderColor
-        }]} />
-      )
-    }
+
     return (
-      <TouchableWithoutFeedback onPressIn={(evt) => this.props.onClick(evt)}>
-        <View style={{height: this.props.defaultHeight}}>
+      <View>
+        <View style={{ height: this.props.defaultHeight }}>
           <View style={styles.chartView}>
-            {renders}
+            {/* {renders} */}
+            {this.props.seriesArray.map((d, index) => {
+              return (
+                <TouchableOpacity onPress={() => this.onPressItem(index)}>
+                  <View key={index} style={[styles.bar, {
+                    width: this.props.defaultWidth / seriesCount,
+                    height: this.props.seriesArray[index].data[this.props.dataIndex]['ratioY'],
+                    marginRight: 20,
+                    backgroundColor: this.props.seriesArray[index].seriesColor,
+                    borderColor: this.props.isSelected ? this.props.highlightColor : '#FFFFFF'
+                  }]} />
+                </TouchableOpacity>
+              )
+            })}
           </View>
         </View>
-      </TouchableWithoutFeedback>
+      </View >
     )
   }
 }
@@ -38,11 +46,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'flex-end',
     height: '100%',
-    paddingTop: 20
+    paddingTop: 20,
   },
   bar: {
     justifyContent: 'flex-end',
-    borderWidth: 1
+    marginHorizontal: 30
   }
 })
 
@@ -53,5 +61,6 @@ ColumnChartItem.propTypes = {
   defaultHeight: PropTypes.number,
   defaultMargin: PropTypes.number,
   primaryColor: PropTypes.string,
-  highlightColor: PropTypes.string
+  highlightColor: PropTypes.string,
+  onPressColumn: PropTypes.func
 }

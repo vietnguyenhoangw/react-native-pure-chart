@@ -1,16 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {View} from 'react-native'
+import { View } from 'react-native'
 
 import LineChart from './components/line-chart'
 import ColumnChart from './components/column-chart'
 import PieChart from './components/pie-chart'
 export default class PureChart extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.renderChart = this.renderChart.bind(this)
   }
-  renderChart () {
+  renderChart() {
     if (this.props.type === 'line') {
       return <LineChart {...this.props} />
     } else if (this.props.type === 'bar') {
@@ -19,7 +19,7 @@ export default class PureChart extends React.Component {
       return <PieChart {...this.props} />
     }
   }
-  render () {
+  render() {
     return (
       <View>
         {this.renderChart()}
@@ -35,11 +35,12 @@ PureChart.propTypes = {
   height: PropTypes.number,
   numberOfYAxisGuideLine: PropTypes.number,
   customValueRenderer: PropTypes.func,
-  backgroundColor: PropTypes.string
+  backgroundColor: PropTypes.string,
+  onPressColumn: PropTypes.func
 }
 PureChart.defaultProps = {
   color: '#297AB1',
   height: 100,
-  numberOfYAxisGuideLine: 5,
+  numberOfYAxisGuideLine: 10,
   backgroundColor: '#FFFFFF'
 }
